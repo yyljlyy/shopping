@@ -222,7 +222,7 @@ layui.config({
                         ,data: []
                         ,skin: othis.attr('lay-skin') //风格
                         ,size: othis.attr('lay-size') //尺寸
-                        ,even: typeof othis.attr('lay-even') === 'string' //偶数行背景
+                        ,even: typeof othis.attr('lay-even') == 'string' //偶数行背景
                     }, table.config, settings, tableData);
 
                     filter && othis.hide();
@@ -320,7 +320,7 @@ layui.config({
                     ,data = table.getDataList(tableId) || [];
                 //计算全选个数
                 layui.each(data, function(i, item){
-                    if(item.constructor === Array){
+                    if(item.constructor == Array){
                         invalidNum++; //无效数据，或已删除的
                         return;
                     }
@@ -331,7 +331,7 @@ layui.config({
                 });
                 return {
                     data: arr //选中的数据
-                    ,isAll: data.length ? (nums === (data.length - invalidNum)) : false //是否全选
+                    ,isAll: data.length ? (nums == (data.length - invalidNum)) : false //是否全选
                 };
             }
             /**
@@ -443,7 +443,7 @@ layui.config({
             ,query:function (tableId, options) {
                 var that= table.getClass(tableId);
                 that.renderTdCss();
-                if(that.config.data && that.config.data.constructor === Array) delete that.config.data;
+                if(that.config.data && that.config.data.constructor == Array) delete that.config.data;
                 that.config = $.extend({}, that.config, options);
                 that.pullData(that.page, that.loading());
             }
@@ -456,7 +456,7 @@ layui.config({
                 var config = thisTable.config[tableId];
                 options = options || {};
                 if(!config) return hint.error('The ID option was not found in the table instance');
-                if(options.data && options.data.constructor === Array) delete config.data;
+                if(options.data && options.data.constructor == Array) delete config.data;
                 return table.render($.extend(true, {}, config, options));
             }
             /**
@@ -551,7 +551,7 @@ layui.config({
                     var isP=true;
                     var temo1=null;
                     sonList.forEach(function (temo) {
-                        if (temo[table.config.indexName] === list[i][table.config.indexName]) {
+                        if (temo[table.config.indexName] == list[i][table.config.indexName]) {
                             isP = false;
                         }
                     });
@@ -610,7 +610,7 @@ layui.config({
             ,treeOpenAll:function (tableId,isOpen) {
                 var that=table.getClass(tableId);
                 if(!that)return;
-                if(isOpen===undefined){isOpen=true;}
+                if(isOpen==undefined){isOpen=true;}
                 var list=table.getDataList(tableId);
                 if(!list)return;
                 list.forEach(function (temo) {
@@ -694,7 +694,7 @@ layui.config({
              */
             ,kit:{
                 isArray:function (o) {
-                    return Object.prototype.toString.call(o) === '[object Array]';
+                    return Object.prototype.toString.call(o) == '[object Array]';
                 }
                 ,isNumber:function (val){
                     var regPos = /^\d+(\.\d+)?$/; //非负浮点数
@@ -746,13 +746,13 @@ layui.config({
                 ,'<tr>'
                 ,'{{# layui.each(item1, function(i2, item2){ }}'
                 ,'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}'
-                ,'{{# if(item2.fixed === "right"){ right = true; } }}'
+                ,'{{# if(item2.fixed == "right"){ right = true; } }}'
                 ,function(){
                     if(options.fixed && options.fixed !== 'right'){
                         return '{{# if(item2.fixed && item2.fixed !== "right"){ }}';
                     }
-                    if(options.fixed === 'right'){
-                        return '{{# if(item2.fixed === "right"){ }}';
+                    if(options.fixed == 'right'){
+                        return '{{# if(item2.fixed == "right"){ }}';
                     }
                     return '';
                 }()
@@ -767,7 +767,7 @@ layui.config({
                 ,'{{# } }}'
                 ,'{{# } }}'
                 ,'" {{#if(item2.align){}}align="{{item2.align}}"{{#}}}>'
-                ,'{{# if(item2.type === "checkbox"){ }}' //复选框
+                ,'{{# if(item2.type == "checkbox"){ }}' //复选框
                 ,'<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose">'
                 ,'{{# } else { }}'
                 ,'<span>{{item2.title||""}}</span>'
@@ -918,7 +918,7 @@ layui.config({
             ,countName: 'count'
         }, options.response);
         //如果 page 传入 laypage 对象
-        if(typeof options.page === 'object'){
+        if(typeof options.page == 'object'){
             options.limit = options.page.limit || options.limit;
             options.limits = options.page.limits || options.limits;
             that.page = options.page.curr = options.page.curr || 1;

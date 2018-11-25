@@ -2,6 +2,7 @@ package com.luckin.innovation.group;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author Jasper Lee (Jian) 创建于 2018-11-23 上午12:16

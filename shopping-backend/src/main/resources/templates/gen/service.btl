@@ -1,0 +1,19 @@
+package com.luckin.ai.backend.ui.service;
+
+import com.luckin.ai.backend.ui.entity.${className};
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+public interface ${className}Service {
+    Page<${className}> get${className}List(PageRequest pageRequest);
+
+    Integer save${className}(${className}Bean data);
+
+    Integer delete${className}(Integer id);
+
+    ${className} update${className}(SystemPermission permission);
+
+    ${className} findById(Long id);
+
+    List<${className}> findAll();
+}

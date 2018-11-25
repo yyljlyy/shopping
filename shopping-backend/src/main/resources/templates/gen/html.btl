@@ -1,0 +1,223 @@
+<%
+var header = {
+%>
+<script src="/plugins/bootstrap-table/bootstrap-table.css"></script>
+<%};
+var body = {%>
+<section class="content-header">
+    <h1>
+        ${remark}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">${remark}</a></li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body" style="padding-bottom:0px;">
+                <div id="toolbar" class="btn-group">
+                    <button id="btn_add" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                    </button>
+                    <button id="btn_edit" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                    </button>
+                    <button id="btn_delete" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                    </button>
+                </div>
+                <div class="table-scrollable">
+                    <table class="table-striped table-hover" id="table"
+                           data-toggle="table"
+                           data-pagination="true"
+                           data-side-pagination="server"
+                           data-search="true"
+                           data-advanced-search="true"
+                           data-id-table="advancedTable"
+                           data-url="/${st.lower(st.ct(tableName))}/${st.lower(st.ct(tableName))}-list" data-toolbar="#toolbar" data-row-style="rowStyle">
+                        <thead>
+                        <tr>
+                            <th data-checkbox="true"></th>
+                            <% for(c in columns){%>
+
+                            <th data-field="${st.ct(c.COLUMN_NAME)}" data-sortable="true">${c.COLUMN_COMMENT}</th>
+
+                            <%}%>
+
+                            <th data-formatter="actionFormatter" data-events="actionEvents">操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div id="modal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <% for(c in columns){%>
+                                <% if(c.COLUMN_KEY!="PRI"){%>
+                                <div class="form-group">
+                                    <label>${c.COLUMN_COMMENT}</label>
+                                    <input type="text" class="form-control" name="${st.ct(c.COLUMN_NAME)}" placeholder="${c.COLUMN_COMMENT}">
+                                </div>
+                                <%}%>
+                             <%}%>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary submit">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<%};
+var footer = {%>
+<script src="/plugins/bootstrap-table/bootstrap-table.js"></script>
+<script src="/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<script>
+    var $modal = $('#modal').modal({show: false}), $alert = $('.alert').hide();
+    $(function () {
+        // create event
+        $('#btn_add').click(function () {
+            showModal($(this).text());
+        });
+        $('#btn_edit').click(function () {
+            var rows = $("#table").bootstrapTable('getSelections');
+            console.log(rows);
+            if (rows.length === 0) {
+            } else {
+            }
+            showModal($(this).attr('title'), rows);
+        });
+
+        $modal.find('.submit').click(function () {
+            var row = {};
+            $modal.find('input[name]').each(function () {
+                row[$(this).attr('name')] = $(this).val();
+            });
+            $modal.find('select').each(function () {
+                row[$(this).attr('name')] = $(this).val();
+            });
+            $.post("/${st.lower(st.ct(tableName))}/${st.lower(st.ct(tableName))}/add", row, function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 0) {
+                    showAlert("保存成功", "success");
+                    $modal.modal('hide');
+                }
+            });
+            window.location.reload();
+            $("#table").bootstrapTable('refresh');
+        });
+        // update and delete events
+
+    });
+
+    function actionFormatter(value, row, index) {
+        return [
+            '<a href="javascript:;" class="btn btn-icon-only purple update"><i class="fa fa-edit"></i></a>' +
+            '<a href="javascript:;" class="btn btn-icon-only red remove"><i class="fa fa-times"></i></a>' +
+            '<a href="javascript:;" class="btn btn-icon-only red runshell"><i class="fa fa-toggle-right"></i></a>'
+        ].join('');
+    }
+
+    function typeFormatter(value, row) {
+        if (row.dataType === 1) {
+            return '<span class="label label-sm label-success"> Mysql </span>';
+        }else if (row.dataType === 2) {
+            return '<span class="label label-sm label-warning"> Mongodb </span>';
+        }else if (row.dataType === 3) {
+            return '<span class="label label-sm label-warning"> Hadoop </span>';
+        }else if (row.dataType === 4) {
+            return '<span class="label label-sm label-warning"> Spark </span>';
+        }else if (row.dataType === 5) {
+            return '<span class="label label-sm label-warning"> ElasticSearch </span>';
+        }else {
+            return '<span class="label label-sm label-danger"> Other </span>';
+        }
+
+    }
+
+    function rowStyle(row, index) {
+        var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+        if (index % 2 === 0 && index / 2 < classes.length) {
+            return {
+                classes: classes[index / 2]
+            };
+        }
+        return {};
+    }
+
+
+    function showModal(title, row) {
+        row = row || {
+            id: '',
+            name: '',
+            stargazers_count: 0,
+            forks_count: 0,
+            description: ''
+        }; // default row value
+
+        $modal.data('id', row.id);
+        $modal.find('.modal-title').text(title);
+        for (var name in row) {
+            $modal.find('input[name="' + name + '"]').val(row[name]);
+        }
+        $modal.modal('show');
+    }
+
+    window.actionEvents = {
+        'click .update': function (e, value, row) {
+            showModal($(this).attr('title'), row);
+        },
+        'click .remove': function (e, value, row) {
+            if (confirm('你是否要删除该数据源?')) {
+                $.ajax({
+                    url: "/${st.lower(st.ct(tableName))}/${st.lower(st.ct(tableName))}/del?id=" + row.id,
+                    type: 'delete',
+                    success: function () {
+                        $("#table").bootstrapTable('refresh');
+                        showAlert('删除成功', 'success');
+                    },
+                    error: function () {
+                        showAlert('删除失败', 'error');
+                    }
+                })
+            }
+        },
+        'click .runshell': function (e, value, row) {
+            modalOpen(row.id, xsrf)
+        }
+    };
+
+    function modalOpen(id, xsrf) {
+        var _url = 'terminal?id=' + id + '&xsrf=' + xsrf;
+        $.fn.modalOpen({
+            id: "Form",
+            title: 'terminal',
+            url: _url,
+            width: "850px",
+            height: "650px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            }
+        });
+    }
+
+    function showAlert(title, type) {
+        $.fn.modalMsg(title, type);
+    }
+</script>
+<% };
+include("/base.html",{header:header,footer:footer,body:body}){}
+%>

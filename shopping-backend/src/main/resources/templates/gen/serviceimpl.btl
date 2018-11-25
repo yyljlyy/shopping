@@ -1,0 +1,56 @@
+package com.luckin.ai.backend.ui.service.impl;
+
+import com.luckin.ai.backend.ui.dao.${className}Dao;
+import com.luckin.ai.backend.ui.entity.${className}Bean;
+import com.luckin.ai.backend.ui.service.${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+    @Autowired
+    private ${className}Repository ${st.lower(st.ct(tableName))}Repository;
+
+    @Override
+    public Page<${className}Bean> get${className}List(PageRequest pageRequest) {
+        return ${st.lower(st.ct(tableName))}Repository.findAll(pageRequest);
+    }
+
+    @Override
+    public Integer save${className}(${className} data) {
+        try {
+            ${className} save = ${st.lower(st.ct(tableName))}Repository.save(data);
+        }catch (Exception e){
+            System.out.println(e);
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer delete${className}(Integer id) {
+        try {
+            ${st.lower(st.ct(tableName))}Repository.delete(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return 1;
+        }
+        return 0;
+    }
+
+    ${className} update${className}(${className} ${st.lower(st.ct(tableName))}){
+         ${className} update = ${st.lower(st.ct(tableName))}Repository.findById(${st.lower(st.ct(tableName))}.getId()).get();
+         ${st.lower(st.ct(tableName))}.setUpdateTime(new Date());
+         return {st.lower(st.ct(tableName))}Repository.save(update);
+    }
+
+    ${className} findById(Long id){
+        return ${st.lower(st.ct(tableName))}Repository.findById(id).get();
+    }
+
+    List<${className}> findAll(){
+        return ${st.lower(st.ct(tableName))}Repository.findAll();
+    }
+}

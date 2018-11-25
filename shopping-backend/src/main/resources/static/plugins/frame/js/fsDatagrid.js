@@ -172,8 +172,8 @@ layui.define(["fsCommon","table",'laypage','fsConfig','form','fsButtonCommon'], 
 	      statusName: statusName //数据状态的字段名称，默认：errorNo
 	      ,statusCode: successNo //成功的状态码，默认：0
 	      ,msgName: msgName //状态信息的字段名称，默认：errorInfo
-	      ,countName: $.result(fsConfig,"global.page.response.countName","results.data.total") //数据总数的字段名称，默认：results.data.total
-	      ,dataName: isPage == "1" ? $.result(fsConfig,"global.page.response.dataNamePage","results.data.list") : $.result(fsConfig,"global.page.response.dataName","results.data") //数据列表的字段名称，默认：data
+	      ,countName: $.result(fsConfig,"global.page.response.countName","results.data.totalElements") //数据总数的字段名称，默认：results.data.total
+	      ,dataName: isPage == "1" ? $.result(fsConfig,"global.page.response.dataNamePage","results.data.content") : $.result(fsConfig,"global.page.response.dataName","results.data") //数据列表的字段名称，默认：data
 	    }
 	  });
 

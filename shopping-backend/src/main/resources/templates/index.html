@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MintLeaf-Fast</title>
+	<title>后台管理系统</title>
     <meta charset="UTF-8">
     <meta content="text/html;charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -30,7 +30,7 @@
   <!-- 顶部 -->
   <div class="layui-header">
     <a href="./index.html" class="layui-hide-xs"><div class="layui-logo" style="font-size:20px;color:white;text-shadow:1px 1px 1px #393D49;font-weight:bold">
-        <img style="border-radius: 0;margin-bottom: 5px" src="/images/mintleaf.png" class="layui-nav-img">电商后台管理系统</div></a>
+        <img style="border-radius: 0;margin-bottom: 5px" src="/images/mintleaf.png" class="layui-nav-img">商户系统</div></a>
     <a href="javascript:;" class="layui-hide-xs"><div class="fsSwitchMenu"><i class="fa fa-outdent"></i></div></a>
 
     <!-- 顶部菜单 -->
@@ -61,14 +61,14 @@
       <li class="layui-nav-item layui-hide-xs">
         <a href="javascript:;">
         	<img src="/images/face.jpg" class="layui-nav-img">
-            ${user.name!}
+            ${systemUser.name!}
         </a>
         <dl class="layui-nav-child">
-          <dd id="userRead" userid="${user.id!}"><a href="javascript:;">个人资料</a></dd>
+          <dd id="userRead" userid="${systemUser.id!}"><a href="javascript:;">个人资料</a></dd>
           <dd id="editPsw"><a href="javascript:;">修改密码</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item layui-hide-xs"><a href="/loginOut.do"><i class="fa fa-sign-out"></i> 退出</a></li>
+      <li class="layui-nav-item layui-hide-xs"><a href="/loginOut"><i class="fa fa-sign-out"></i> 退出</a></li>
     </ul>
   </div>
 
@@ -93,7 +93,7 @@
 		<!-- 内容 -->
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
-				<iframe src="home.html"></iframe>
+				<iframe src="home"></iframe>
 			</div>
 		</div>
 	</div>

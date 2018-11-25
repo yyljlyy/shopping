@@ -76,16 +76,16 @@ layui.fsDict = {
     	//角色
     	role : {
         	formatType : "server",
-        	loadUrl : "/coreRole/all.json",
+        	loadUrl : "/systemRole/all",
         	method : "post",
         	inputs : "id:1",
-        	labelField : "name",
+        	labelField : "roleName",
         	valueField : "id"
     	},
     	//菜单父级
     	menu : {
         	formatType : "server",
-        	loadUrl : "/coreMenu/all.json",
+        	loadUrl : "/systemMenu/all",
         	method : "post",
         	inputs : "id:1",
         	labelField : "name",

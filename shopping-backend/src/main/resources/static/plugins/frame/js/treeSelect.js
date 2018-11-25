@@ -314,7 +314,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
       n.open = (typeof n.open == "string") ? tools.eqs(n.open, "true") : !!n.open;
       var isParent = data.nodeIsParent(setting, n);
       if (tools.isArray(children) &&
-        !(isParent === false || (typeof isParent == "string" && tools.eqs(isParent, "false")))) {
+        !(isParent == false || (typeof isParent == "string" && tools.eqs(isParent, "false")))) {
         data.nodeIsParent(setting, n, true);
         n.zAsync = true;
       } else {
@@ -406,7 +406,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
           index = -1;
         }
 
-        if (children.length > 0 && index === 0) {
+        if (children.length > 0 && index == 0) {
           children[0].isFirstNode = false;
           view.setNodeLineIcos(setting, children[0]);
         } else if (children.length > 0 && index < 0) {
@@ -473,7 +473,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         var p = node.parentTId ? node.getParentNode() : data.getRoot(setting),
           children = data.nodeChildren(setting, p);
         for (var i = 0, l = children.length - 1; i <= l; i++) {
-          if (children[i] === node) {
+          if (children[i] == node) {
             return i;
           }
         }
@@ -484,7 +484,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         var p = node.parentTId ? node.getParentNode() : data.getRoot(setting),
           children = data.nodeChildren(setting, p);
         for (var i = 0, l = children.length - 1; i <= l; i++) {
-          if (children[i] === node) {
+          if (children[i] == node) {
             return (i == l ? null : children[i + 1]);
           }
         }
@@ -579,7 +579,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         var p = node.parentTId ? node.getParentNode() : data.getRoot(setting),
           children = data.nodeChildren(setting, p);
         for (var i = 0, l = children.length; i < l; i++) {
-          if (children[i] === node) {
+          if (children[i] == node) {
             return (i == 0 ? null : children[i - 1]);
           }
         }
@@ -619,7 +619,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
       isSelectedNode: function (setting, node) {
         var root = data.getRoot(setting);
         for (var i = 0, j = root.curSelectedList.length; i < j; i++) {
-          if (node === root.curSelectedList[i]) return true;
+          if (node == root.curSelectedList[i]) return true;
         }
         return false;
       },
@@ -639,7 +639,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         }
         var key = setting.data.key.isParent;
         if (typeof newIsParent !== 'undefined') {
-          if (typeof newIsParent === "string") {
+          if (typeof newIsParent == "string") {
             newIsParent = tools.eqs(newIsParent, "true");
           }
           newIsParent = !!newIsParent;
@@ -655,7 +655,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         return "" + node[key];
       },
       nodeTitle: function (setting, node) {
-        var t = setting.data.key.title === "" ? setting.data.key.name : setting.data.key.title;
+        var t = setting.data.key.title == "" ? setting.data.key.name : setting.data.key.title;
         return "" + node[t];
       },
       removeNodeCache: function (setting, node) {
@@ -670,7 +670,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
       removeSelectedNode: function (setting, node) {
         var root = data.getRoot(setting);
         for (var i = 0, j = root.curSelectedList.length; i < j; i++) {
-          if (node === root.curSelectedList[i] || !data.getNodeCache(setting, root.curSelectedList[i].tId)) {
+          if (node == root.curSelectedList[i] || !data.getNodeCache(setting, root.curSelectedList[i].tId)) {
             root.curSelectedList.splice(i, 1);
             setting.treeObj.trigger(consts.event.UNSELECTED, [setting.treeId, node]);
             i--;
@@ -831,10 +831,10 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         var setting = data.getSetting(event.data.treeId),
           clickFlag = ((setting.view.autoCancelSelected && (event.ctrlKey || event.metaKey)) && data.isSelectedNode(setting, node)) ? 0 : (setting.view.autoCancelSelected && (event.ctrlKey || event.metaKey) && setting.view.selectedMulti) ? 2 : 1;
         if (tools.apply(setting.callback.beforeClick, [setting.treeId, node, clickFlag], true) == false) return true;
-        if (clickFlag === 0) {
+        if (clickFlag == 0) {
           view.cancelPreSelectedNode(setting, node);
         } else {
-          view.selectNode(setting, node, clickFlag === 2);
+          view.selectNode(setting, node, clickFlag == 2);
         }
         setting.treeObj.trigger(consts.event.CLICK, [event, setting.treeId, node, clickFlag]);
         return true;
@@ -869,7 +869,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
       },
       onSelectStart: function (e) {
         var n = e.originalEvent.srcElement.nodeName.toLowerCase();
-        return (n === "input" || n === "textarea");
+        return (n == "input" || n == "textarea");
       }
     },
     //method of tools for zTree
@@ -886,23 +886,23 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         return (setting.async.enable && node && isParent && !(node.zAsync || (children && children.length > 0)));
       },
       clone: function (obj) {
-        if (obj === null) return null;
+        if (obj == null) return null;
         var o = tools.isArray(obj) ? [] : {};
         for (var i in obj) {
-          o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? tools.clone(obj[i]) : obj[i]);
+          o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] == "object" ? tools.clone(obj[i]) : obj[i]);
         }
         return o;
       },
       eqs: function (str1, str2) {
-        return str1.toLowerCase() === str2.toLowerCase();
+        return str1.toLowerCase() == str2.toLowerCase();
       },
       isArray: function (arr) {
-        return Object.prototype.toString.apply(arr) === "[object Array]";
+        return Object.prototype.toString.apply(arr) == "[object Array]";
       },
       isElement: function (o) {
         return (
-          typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
-            o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
+          typeof HTMLElement == "object" ? o instanceof HTMLElement : //DOM2
+            o && typeof o == "object" && o !== null && o.nodeType == 1 && typeof o.nodeName == "string"
         );
       },
       $: function (node, exp, setting) {
@@ -990,7 +990,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         for (var i = 0, l = nodes.length; i < l; i++) {
           var node = nodes[i];
           if (initFlag) {
-            isFirstNode = ((index === 0 || tmpPChild.length == nodes.length) && (i == 0));
+            isFirstNode = ((index == 0 || tmpPChild.length == nodes.length) && (i == 0));
             isLastNode = (index < 0 && i == (nodes.length - 1));
             data.initNode(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag);
             data.addNodeCache(setting, node);
@@ -1134,7 +1134,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
           i, n;
         for (i = list.length - 1; i >= 0; i--) {
           n = list[i];
-          if (node === n || (!node && (!excludeNode || excludeNode !== n))) {
+          if (node == n || (!node && (!excludeNode || excludeNode !== n))) {
             $$(n, consts.id.A, setting).removeClass(consts.node.CURSELECTED);
             if (node) {
               data.removeSelectedNode(setting, node);
@@ -1299,7 +1299,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         var list = data.getRoot(setting).curSelectedList,
           i;
         for (i = list.length - 1; i >= 0; i--) {
-          if (node === list[i]) {
+          if (node == list[i]) {
             return true;
           }
         }
@@ -1439,7 +1439,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
           return;
         }
         // support IE 7
-        if (typeof Element === 'undefined') {
+        if (typeof Element == 'undefined') {
           var contRect = setting.treeObj.get(0).getBoundingClientRect(),
             findMeRect = dom.getBoundingClientRect();
           if (findMeRect.top < contRect.top || findMeRect.bottom > contRect.bottom

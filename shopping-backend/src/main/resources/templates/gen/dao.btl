@@ -1,0 +1,7 @@
+package com.luckin.ai.backend.ui.dao;
+
+import com.luckin.ai.backend.ui.entity.${className}Bean;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ${className}Dao extends JpaRepository<${className}Bean, Integer> {
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv ="Pragma" content = "no-cache"/>
+    <meta http-equiv="Cache-Control" content="no cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <script src="/plugins/pace/pace.min.js"></script>
+    <link href="/plugins/pace/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/css/fs.css" media="all"/>
+    <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/plugins/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库</label>
+            <div class="layui-input-block">
+                <select name="tables" id="tables" lay-filter="tables">
+                    <option value="">选择数据库</option>
+                    <% for(p in dataList){%>
+                    <option value="${p}">${p}</option>
+                    <%};%>
+                </select>
+            </div>
+        </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据表</label>
+                <div class="layui-input-block">
+                    <select name="columns" id="columns" lay-filter="columns">
+                        <option value="">选择数据表</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择生成模块</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="ctrl" title="控制层">
+                    <input type="checkbox" name="service" title="服务层">
+                    <input type="checkbox" name="bean" title="实体层">
+                    <input type="checkbox" name="dao" title="数据层">
+                    <input type="checkbox" name="page" title="页面">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" id="generate_data" lay-submit="" lay-filter="gencode">生成代码</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        layui.use('form', function(){
+            var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
+            form.render();
+            form.on('select(tables)', function(data){
+                $.post("/generate/data-base?database=" + data.value, function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var list_html = '<option value="-1">选择数据表</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            list_html += '<option value="' + data[i].tableName + '">' + data[i].tableName + '</option>'
+                        }
+                        $("#columns").html(list_html);
+                        form.render()
+                    }
+                });
+            });
+            form.on('submit(gencode)', function(data){
+                var tables = $("#tables").val();
+                var columns = $("#columns").val();
+                var gente = [];
+                $.each($('input:checkbox:checked'), function () {
+                    if ($(this).val() =='on') {
+                        gente.push($(this).attr("name"));
+                    }
+                });
+                var params = gente.join(",");
+                $.post("/generate/generateCode",{"database":tables,"datetable":columns,"cate":params}, function (data) {
+                    var cate_data = JSON.parse(data);
+                    if (cate_data.code === 0) {
+                        alert("生成成功")
+                    }
+                })
+            });
+        });
+    });
+</script>
+</body>
+</html>

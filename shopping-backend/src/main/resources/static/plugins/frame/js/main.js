@@ -146,7 +146,7 @@ layui.use(['fsMenu','layer','fsTab','fsCommon','fsConfig'], function(){
     	  shadeClose: true,
     	  shade: 0.6,
     	  title: '个人资料',
-    	  content: '/coreUser/edit.html?id='+$(this).attr("userid")+'&_mode=readonly'
+    	  content: '/systemUser/edit?id='+$(this).attr("userid")+'&_mode=readonly'
     	});
 
     });
@@ -161,7 +161,7 @@ layui.use(['fsMenu','layer','fsTab','fsCommon','fsConfig'], function(){
             shadeClose: true,
             shade: 0.6,
             title: '修改密码',
-            content: '/coreUser/updatePwd.html'
+            content: '/systemUser/updatePwd'
         });
 
     });

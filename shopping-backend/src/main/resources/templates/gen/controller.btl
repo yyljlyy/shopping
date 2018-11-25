@@ -1,0 +1,71 @@
+package com.luckin.ai.backend.ui.controller;
+
+import com.luckin.ai.backend.ui.entity.${className}Bean;
+import com.luckin.ai.backend.ui.entity.Result;
+import com.luckin.ai.backend.ui.service.${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("/${st.lower(st.ct(tableName))}")
+public class ${className}Controller {
+    @Autowired
+    private ${className}Service ${st.lower(st.ct(tableName))}Service;
+
+     /**
+      * 进入列表页面
+      *
+      * @return
+      */
+     @RequestMapping(value = "index", method = {RequestMethod.GET})
+        public String index() {
+            return "${st.lower(st.ct(tableName))}/index";
+     }
+
+     /**
+      * 进入编辑页面
+      *
+      * @return
+      */
+     @RequiresPermissions("auth:user:edit")
+        @RequestMapping(value = "edit", method = {RequestMethod.GET})
+        public String edit() {
+            return "${st.lower(st.ct(tableName))}/edit";
+     }
+
+     /**
+      * 进入新增页面
+      *
+      * @return
+      */
+     @RequestMapping(value = "add", method = {RequestMethod.GET})
+        public String add() {
+            return "${st.lower(st.ct(tableName))}/add";
+     }
+
+    @RequestMapping("${st.lower(st.ct(tableName))}/page")
+    @ResponseBody
+    public Page<${className}Bean> getList(String order, Integer offset, Integer limit){
+        PageRequest pageRequest = new PageRequest(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
+        return ${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest);
+    }
+
+    @RequestMapping("${st.lower(st.ct(tableName))}/add")
+    @ResponseBody
+    public Result add${className}(${className}Bean data){
+        Integer code = ${st.lower(st.ct(tableName))}Service.save${className}(data);
+        return new Result(code, "successful");
+    }
+
+    @RequestMapping("${st.lower(st.ct(tableName))}/del")
+    @ResponseBody
+    public Result del${className}(Integer id){
+        Integer code = ${st.lower(st.ct(tableName))}Service.delete${className}(id);
+        return new Result(code, "successful");
+    }
+}

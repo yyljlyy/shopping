@@ -1,0 +1,29 @@
+package com.luckin.ai.backend.ui.entity;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "${tableName}")
+public class ${className}Bean {
+<%for(c in columns){%>
+<%if(c.COLUMN_KEY == "PRI"){%>
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private ${st.switchType(c.DATA_TYPE)} ${st.ct(c.COLUMN_NAME)};
+<%}else{%>
+    private ${st.switchType(c.DATA_TYPE)} ${st.ct(c.COLUMN_NAME)};
+
+<%}
+}%>
+
+<%for(c in columns){%>
+    public ${st.switchType(c.DATA_TYPE)} get${st.bt(c.COLUMN_NAME)}() {
+        return this.${st.ct(c.COLUMN_NAME)};
+    }
+
+    public void set${st.ct(c.COLUMN_NAME)}(${st.switchType(c.DATA_TYPE)} ${st.ct(c.COLUMN_NAME)}) {
+        ${st.ct(c.COLUMN_NAME)} = ${st.ct(c.COLUMN_NAME)};
+    }
+<%}%>
+}

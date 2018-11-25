@@ -1,15 +1,10 @@
 package com.luckin.innovation.group.config;
 
-import com.alibaba.druid.filter.stat.StatFilter;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
 import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -49,43 +44,6 @@ public class ViewConfiguration {
         beetlSpringViewResolver.setOrder(Integer.parseInt(order));
         beetlSpringViewResolver.setConfig(beetlGroupUtilConfiguration);
         return beetlSpringViewResolver;
-    }
-
-
-    @Bean
-    public ServletRegistrationBean DruidStatViewServle() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-        servletRegistrationBean.addInitParameter("allow","10.*.*.*");
-        servletRegistrationBean.addInitParameter("loginUsername","admin");
-        servletRegistrationBean.addInitParameter("loginPassword","123456");
-        servletRegistrationBean.addInitParameter("resetEnable","false");
-        return servletRegistrationBean;
-    }
-
-    /**
-
-     * 注册一个：filterRegistrationBean
-
-     * @return
-
-     */
-
-    @Bean
-    public FilterRegistrationBean druidStatFilter2(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
-        //添加过滤规则.
-        filterRegistrationBean.addUrlPatterns("/*");
-        //添加不需要忽略的格式信息.
-        filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid2/*");
-        return filterRegistrationBean;
-    }
-
-    @Bean
-    public StatFilter statFilter(){
-        StatFilter filter = new StatFilter();
-        filter.setSlowSqlMillis(500);
-        filter.setLogSlowSql(true);
-        return filter;
     }
 
 }

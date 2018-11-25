@@ -122,10 +122,10 @@ layui.define(['layer','form','fsConfig','fsButtonCommon'], function (exports) {
 	    var pattern = /([^?&=]+)=([^&#]*)/g;
 	    var dict = {};
 	    var search = null;
-	    if (typeof param === "object" && param instanceof Location) {
+	    if (typeof param == "object" && param instanceof Location) {
         search = param.search;
 	    }
-	    else if (typeof param === "string") {
+	    else if (typeof param == "string") {
         search = param;
 	    }
 	    else {
@@ -236,7 +236,7 @@ layui.define(['layer','form','fsConfig','fsButtonCommon'], function (exports) {
 				if($.isEmpty(value)){
 					fsCommon.warnMsg("请选择左边树！");
 					return false;
-				}else if(value === "0"){
+				}else if(value == "0"){
 					fsCommon.warnMsg("请选择非根目录！");
 					return false;
 				}

@@ -25,7 +25,7 @@
             <input class="layui-input" name="username" value="admin" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
         </div>
         <div class="layui-form-item">
-            <input class="layui-input" name="password" value="admin1234" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
+            <input class="layui-input" name="password" value="123456" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
         </div>
         <div class="layui-form-item form_code">
             <input class="layui-input" name="verifyCodeActual" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
@@ -41,11 +41,11 @@
     }
     layui.use(['form','layer'],function(){
         var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            layer = parent.layer == undefined ? layui.layer : parent.layer,
             $ = layui.jquery;
 
         var urls = {
-            login: "/loginDo"
+            login: "/login"
         };
 
         //登录按钮事件
@@ -60,7 +60,7 @@
                 type : 'POST',
                 success : function(obj) {
                     if (obj.success) {
-                        window.location.href ="/index.html";
+                        window.location.href ="/index";
                     }else{
                         layer.msg(obj.msg, {icon: 2});
                     }
