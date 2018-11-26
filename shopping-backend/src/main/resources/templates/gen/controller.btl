@@ -42,6 +42,20 @@ public class ${className}Controller {
         public String edit() {
             return "${st.lower(st.ct(tableName))}/edit";
      }
+      /**
+          * 编辑操作
+          * @param permission
+          * @return ResultMsg
+          */
+         @RequestMapping(value = "edit",method = {RequestMethod.POST})
+         @ResponseBody
+         public ResultMsg update(${className} ${st.lower(st.ct(tableName))}) {
+             ${st.lower(st.ct(tableName))}.setUpdatetime(new Date());
+             ${className} ${st.lower(st.ct(tableName))} = ${st.lower(st.ct(tableName))}Service.save(${st.lower(st.ct(tableName))});
+             ResultMsg result=new ResultMsg();
+             result.setData(${st.lower(st.ct(tableName))});
+             return result;
+         }
 
      /**
       * 进入新增页面

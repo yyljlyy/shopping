@@ -4,7 +4,9 @@ import com.luckin.innovation.group.entity.ProductCategory;
 import com.luckin.innovation.group.entity.ResultMsg;
 import com.luckin.innovation.group.service.ProductCategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
-import java.util.List;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Controller
 @RequestMapping("/productcategory")
@@ -81,23 +83,5 @@ public class ProductCategoryController {
         ResultMsg msg = new ResultMsg();
         msg.setData(byId);
         return msg;
-    }
-
-    /**
-     * 查询全部数据操作
-     * @return ResultMsg
-     */
-    @RequestMapping(value="all",method = {RequestMethod.POST})
-    @ResponseBody
-    public ResultMsg all(){
-        List<ProductCategory> coreMenus = productcategoryService.findAll();
-        ProductCategory coreMenu=new ProductCategory();
-        coreMenu.setId(0L);
-        coreMenu.setCategoryName("/根目录");
-        //向菜单list第一个位置插入根目录
-        coreMenus.add(0,coreMenu);
-        ResultMsg result=new ResultMsg();
-        result.setData(coreMenus);
-        return  result;
     }
 }
