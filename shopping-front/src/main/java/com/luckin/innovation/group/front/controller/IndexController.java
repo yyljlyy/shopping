@@ -41,7 +41,7 @@ public class IndexController {
     public String informationPage() {
         return "information";
     }
-    @RequestMapping(value = "login.html")
+    @RequestMapping(value = "login")
     public String loginPage() {
         return "login";
     }

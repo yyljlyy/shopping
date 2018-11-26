@@ -1,5 +1,7 @@
 package com.luckin.innovation.group.controller;
 
+import com.luckin.innovation.group.entity.SystemPermission;
+import com.luckin.innovation.group.service.SystemPermissionService;
 import com.luckin.innovation.group.utils.SwitchType;
 import com.luckin.innovation.group.utils.gen.DatabaseGenerateService;
 import com.luckin.innovation.group.utils.gen.MysqlGenerate;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.jnlp.PersistenceService;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +34,8 @@ import java.util.List;
  */
 @Controller
 public class GenCodeController {
+    @Resource
+    private SystemPermissionService persistenceService;
     @Resource
     private MysqlGenerate dataSourceService;
 
@@ -77,11 +83,11 @@ public class GenCodeController {
             //entity,dao,service,ctrl,page
             switch (s){
                 case "entity":
-                    build(datetable, column, "bean.btl", "Bean.java",remark);
+                    build(datetable, column, "bean.btl", ".java",remark);
                     System.out.println("Bean generate finish !");
                     break;
                 case "dao":
-                    build(datetable, column, "dao.btl", "Dao.java",remark);
+                    build(datetable, column, "dao.btl", "Repository.java",remark);
                     System.out.println("dao generate finish !");
                     break;
                 case "service":
@@ -101,6 +107,17 @@ public class GenCodeController {
                 default:
             }
         }
+        String actionName =  DatabaseGenerateService.tableToActionName(datetable,"");
+        SystemPermission permission = new SystemPermission();
+        permission.setName(remark);
+        permission.setUrl("/"+actionName+"/index");
+        permission.setCreatetime(new Date());
+        permission.setDisplay(1);
+        permission.setFlag("1");
+        permission.setCreator(1);
+        permission.setMenutype("0");
+        permission.setParentid(1L);
+        persistenceService.save(permission);
     }
 
 
@@ -154,7 +171,7 @@ public class GenCodeController {
             t.binding("remark", remark);
             if("html.btl".equals(file)){
                 SwitchType st = new SwitchType();
-                String newPath = project + projectMenu + st.lower(st.ct(tableName));
+                String newPath = project + projectMenu + "index";
                 if (!Files.exists(Paths.get(newPath))){
                     try {
                         Files.createDirectory(Paths.get(newPath));

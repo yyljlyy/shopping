@@ -1,8 +1,8 @@
 package com.luckin.innovation.group.controller;
 
-import com.luckin.innovation.group.entity.${className};
+import com.luckin.innovation.group.entity.OrderItem;
 import com.luckin.innovation.group.entity.ResultMsg;
-import com.luckin.innovation.group.service.${className}Service;
+import com.luckin.innovation.group.service.OrderItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 @Controller
-@RequestMapping("/${st.lower(st.ct(tableName))}")
-public class ${className}Controller {
+@RequestMapping("/orderitem")
+public class OrderItemController {
     @Resource
-    private ${className}Service ${st.lower(st.ct(tableName))}Service;
+    private OrderItemService orderitemService;
 
      /**
       * 进入列表页面
@@ -27,7 +27,7 @@ public class ${className}Controller {
       */
      @RequestMapping(value = "index", method = {RequestMethod.GET})
         public String index() {
-            return "${st.lower(st.ct(tableName))}/index";
+            return "orderitem/index";
      }
 
      /**
@@ -38,7 +38,7 @@ public class ${className}Controller {
      @RequiresPermissions("auth:user:edit")
         @RequestMapping(value = "edit", method = {RequestMethod.GET})
         public String edit() {
-            return "${st.lower(st.ct(tableName))}/edit";
+            return "orderitem/edit";
      }
 
      /**
@@ -48,27 +48,27 @@ public class ${className}Controller {
       */
      @RequestMapping(value = "add", method = {RequestMethod.GET})
         public String add() {
-            return "${st.lower(st.ct(tableName))}/add";
+            return "orderitem/add";
      }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/page")
+    @RequestMapping("orderitem/page")
     @ResponseBody
-    public Page<${className}> getList(String order, Integer offset, Integer limit){
+    public Page<OrderItem> getList(String order, Integer offset, Integer limit){
         PageRequest pageRequest = new PageRequest(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
-        return ${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest);
+        return orderitemService.getOrderItemList(pageRequest);
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/add")
+    @RequestMapping("orderitem/add")
     @ResponseBody
-    public ResultMsg add${className}(${className} ${st.lower(st.ct(tableName))}){
-        Integer code = ${st.lower(st.ct(tableName))}Service.save${className}(${st.lower(st.ct(tableName))});
+    public ResultMsg addOrderItem(OrderItem orderitem){
+        Integer code = orderitemService.saveOrderItem(orderitem);
         return ResultMsg.ok();
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/del")
+    @RequestMapping("orderitem/del")
     @ResponseBody
-    public ResultMsg del${className}(Long id){
-        Integer code = ${st.lower(st.ct(tableName))}Service.delete${className}(id);
+    public ResultMsg delOrderItem(Long id){
+        Integer code = orderitemService.deleteOrderItem(id);
         return ResultMsg.ok();
     }
 }

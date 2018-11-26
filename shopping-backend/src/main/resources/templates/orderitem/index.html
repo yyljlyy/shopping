@@ -62,10 +62,10 @@
   	 <div class="layui-col-md12">
   	 	<div class="layui-row grid-demo">
 	      <div class="layui-col-md12">
-        	<button class="layui-btn" function="top" topUrl="/${st.lower(st.ct(tableName))}/add" topWidth="800px" isMaximize="0" topHeight="600px" topTitle="新增">
+        	<button class="layui-btn" function="top" topUrl="/orderitem/add" topWidth="800px" isMaximize="0" topHeight="600px" topTitle="新增">
 			  <i class="layui-icon">&#xe654;</i>新增
 			</button>
-			<button class="layui-btn layui-btn-danger" function="submit" method="post" url="/${st.lower(st.ct(tableName))}/deleteBatch" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？" inputs="id:">
+			<button class="layui-btn layui-btn-danger" function="submit" method="post" url="/orderitem/deleteBatch" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？" inputs="id:">
 			  <i class="layui-icon">&#xe640;</i>批量删除
 			</button>
 			<button class="layui-btn" function="refresh">
@@ -77,30 +77,32 @@
 			<!--</button>-->
 	      </div>
 	      <div class="layui-col-md12">
-	         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1" url="/${st.lower(st.ct(tableName))}/page" isPage="1" sortType="0" pageSize="10" defaultForm="query_form" height="full-135"></table>
+	         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1" url="/orderitem/page" isPage="1" sortType="0" pageSize="10" defaultForm="query_form" height="full-135"></table>
 
 	         <div class="fsDatagridCols">
 						<p type="numbers" title="#"/>
 						<p checkbox="true"/>
-				 		<% for(c in columns){%>
-				 			<p field="${st.ct(c.COLUMN_NAME)}" title="${c.COLUMN_COMMENT}" width="180"/>
-				 		<%}%>
-					</div>
-			<script type="text/html" id="barDemo">
-				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="/${st.lower(st.ct(tableName))}/edit" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="查看" inputs="id:">查看</a>
- 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/${st.lower(st.ct(tableName))}/edit" topWidth="800px" topHeight="600px" topTitle="编辑" inputs="id:">编辑</a>
-  				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit" url="/${st.lower(st.ct(tableName))}/delete" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？" inputs="id:">删除</a>
-				<!--<a class="layui-btn layui-btn-xs" lay-event="test2" >测试</a>-->
-			</script>
-	      </div>
-	    </div>
-  	 </div>
+						<p field="id" title="ID" sort="true" width="100"/>
+						<p field="userName" title="名称" width="30%"/>
+				 		<p field="roles" templet="#rolesTpl" title="角色" width="180"/>
+						<p field="createTime" title="创建时间" width="180"/>
+						<p field="updateTime" title="修改时间" width="180"/>
+						<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="300"/>
+				 		<script type="text/html" id="barDemo">
+					 <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="/${st.lower(st.ct(tableName))}/edit" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="查看" inputs="id:">查看</a>
+					 <a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/${st.lower(st.ct(tableName))}/edit" topWidth="800px" topHeight="600px" topTitle="编辑" inputs="id:">编辑</a>
+					 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit" url="/${st.lower(st.ct(tableName))}/delete" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？" inputs="id:">删除</a>
+					 <!--<a class="layui-btn layui-btn-xs" lay-event="test2" >测试</a>-->
+				 </script>
+			 </div>
+		  </div>
+		</div>
+	 </div>
   </div>
-</div>
-</div>
+   </div>
 
-<script type="text/javascript">
+	  <script type="text/javascript">
 
-</script>
+	  </script>
 </body>
 </html>

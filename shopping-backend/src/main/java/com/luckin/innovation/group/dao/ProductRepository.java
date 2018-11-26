@@ -1,9 +1,9 @@
 package com.luckin.innovation.group.dao;
 
-import com.luckin.innovation.group.entity.${className};
+import com.luckin.innovation.group.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ${className}Repository extends JpaRepository<${className}, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }

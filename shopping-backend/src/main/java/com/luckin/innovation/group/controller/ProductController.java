@@ -1,8 +1,8 @@
 package com.luckin.innovation.group.controller;
 
-import com.luckin.innovation.group.entity.${className};
+import com.luckin.innovation.group.entity.Product;
 import com.luckin.innovation.group.entity.ResultMsg;
-import com.luckin.innovation.group.service.${className}Service;
+import com.luckin.innovation.group.service.ProductService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 @Controller
-@RequestMapping("/${st.lower(st.ct(tableName))}")
-public class ${className}Controller {
+@RequestMapping("/product")
+public class ProductController {
     @Resource
-    private ${className}Service ${st.lower(st.ct(tableName))}Service;
+    private ProductService productService;
 
      /**
       * 进入列表页面
@@ -27,7 +27,7 @@ public class ${className}Controller {
       */
      @RequestMapping(value = "index", method = {RequestMethod.GET})
         public String index() {
-            return "${st.lower(st.ct(tableName))}/index";
+            return "product/index";
      }
 
      /**
@@ -38,7 +38,7 @@ public class ${className}Controller {
      @RequiresPermissions("auth:user:edit")
         @RequestMapping(value = "edit", method = {RequestMethod.GET})
         public String edit() {
-            return "${st.lower(st.ct(tableName))}/edit";
+            return "product/edit";
      }
 
      /**
@@ -48,27 +48,27 @@ public class ${className}Controller {
       */
      @RequestMapping(value = "add", method = {RequestMethod.GET})
         public String add() {
-            return "${st.lower(st.ct(tableName))}/add";
+            return "product/add";
      }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/page")
+    @RequestMapping("product/page")
     @ResponseBody
-    public Page<${className}> getList(String order, Integer offset, Integer limit){
+    public Page<Product> getList(String order, Integer offset, Integer limit){
         PageRequest pageRequest = new PageRequest(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
-        return ${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest);
+        return productService.getProductList(pageRequest);
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/add")
+    @RequestMapping("product/add")
     @ResponseBody
-    public ResultMsg add${className}(${className} ${st.lower(st.ct(tableName))}){
-        Integer code = ${st.lower(st.ct(tableName))}Service.save${className}(${st.lower(st.ct(tableName))});
+    public ResultMsg addProduct(Product product){
+        Integer code = productService.saveProduct(product);
         return ResultMsg.ok();
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/del")
+    @RequestMapping("product/del")
     @ResponseBody
-    public ResultMsg del${className}(Long id){
-        Integer code = ${st.lower(st.ct(tableName))}Service.delete${className}(id);
+    public ResultMsg delProduct(Long id){
+        Integer code = productService.deleteProduct(id);
         return ResultMsg.ok();
     }
 }
