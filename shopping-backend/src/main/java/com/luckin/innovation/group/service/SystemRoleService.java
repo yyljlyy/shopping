@@ -22,4 +22,6 @@ public interface SystemRoleService {
     List<SystemRole> findAll();
 
     SystemRole findById(Long id);
+
+    void deleteById(Long id);
 }

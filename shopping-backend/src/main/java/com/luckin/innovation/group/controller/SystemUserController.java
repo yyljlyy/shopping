@@ -114,20 +114,7 @@ public class SystemUserController {
 
     }
 
-    /**
-     * 删除操作
-     *
-     * @param user
-     * @return
-     */
-    @RequestMapping(value = "delete", method = {RequestMethod.POST})
-    @ResponseBody
-    public ResultMsg delete(SystemUser user) {
-        //根据id删除用户表单条数据
-        userService.deleteById(user.getId());
-        roleService.deleteSample(user.getId());
-        return ok();
-    }
+
 
     /**
      * 批量删除操作
@@ -138,10 +125,17 @@ public class SystemUserController {
     @RequestMapping(value = "deleteBatch", method = {RequestMethod.POST})
     @ResponseBody
     public ResultMsg deleteBatch(String id) {
-        //根据多个用户id删除用户表信息
-        userService.deleteByIds(id.split(","));
-        //根据多个用户id删除用户角色关系表信息
-        roleService.deleteByIds(id.split(","));
+        String[] ids = id.split(",");
+        for (String s : ids) {
+            SystemUser findUser = userService.findOneById(Long.valueOf(s));
+            //根据多个用户id删除用户角色关系表信息
+            List<SystemRole> roles = findUser.getRoles();
+            for (SystemRole role : roles) {
+                roleService.deleteById(role.getId());
+            }
+            //根据多个用户id删除用户表信息
+            userService.deleteByIds(ids);
+        }
         return ok();
     }
 

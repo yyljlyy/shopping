@@ -47,4 +47,9 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     public SystemRole findById(Long id) {
         return roleRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        roleRepository.deleteById(id);
+    }
 }
