@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.luckin.innovation.group.entity.ResultMsg.fail;
 import static com.luckin.innovation.group.entity.ResultMsg.ok;
@@ -95,13 +95,23 @@ public class SystemUserController {
      */
     @RequestMapping(value = "add", method = {RequestMethod.POST})
     @ResponseBody
-    public ResultMsg add(SystemUser user) {
+    public ResultMsg add(SystemUser user,String role) {
         //向用户表插入新添加用户信息
-        user.setPassWord(Md5Util.md5(user.getPassWord()));
-        SystemUser user1 = userService.insertUser(user);
-        ResultMsg result = new ResultMsg();
-        result.setData(user1);
-        return result;
+        SystemUser isuser = userService.findOneByName(user.getUserName());
+        if (isuser != null){
+            return fail("用户名已存在");
+        }else {
+            user.setPassWord(Md5Util.md5(user.getPassWord()));
+            ArrayList<SystemRole> systemRoles = Arrays.stream(role.split(",")).map(s -> roleService.findById(Long.valueOf(s))).filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
+            user.setRoles(systemRoles);
+            user.setCreateTime(new Date());
+            user.setUpdateTime(new Date());
+            SystemUser user1 = userService.insertUser(user);
+            ResultMsg result = new ResultMsg();
+            result.setData(user1);
+            return result;
+        }
+
     }
 
     /**
@@ -171,18 +181,8 @@ public class SystemUserController {
     public ResultMsg updateCoreMenu(SystemUser user) throws Exception {
         //向用户表查询用户信息
         SystemUser findUser = userService.findOneById(user.getId());
-        //向用户关系表查询用户角色信息
-//        List<SystemRole> userRoles = roleService.sample(user.getId());
-//        String roles = "";
-//        for (SystemRole userRole : userRoles) {
-//
-//            String role = String.valueOf(userRole.getRoleid());
-//            roles = roles + "," + role;
-//            System.out.print(roles);
-//        }
-//        user.setRole(roles);
         ResultMsg result = new ResultMsg();
-        result.setData(user);
+        result.setData(findUser);
         return result;
 
     }

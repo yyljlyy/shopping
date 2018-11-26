@@ -84,4 +84,8 @@ public class SystemUserServiceImpl {
     public List<SystemUser> findAll() {
         return userRepository.findAll();
     }
+
+    public SystemUser findOneByName(String userName) {
+        return userRepository.findByUserName(userName).orElse(null);
+    }
 }

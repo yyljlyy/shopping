@@ -45,6 +45,6 @@ public class SystemRoleServiceImpl implements SystemRoleService {
 
     @Override
     public SystemRole findById(Long id) {
-        return findById(id);
+        return roleRepository.findById(id).orElse(null);
     }
 }
