@@ -101,7 +101,9 @@ public class GenCodeController {
                     System.out.println("ctrl generate finish !");
                     break;
                 case "page":
-                    build(datetable, column, "html.btl", ".html",remark);
+                    build(datetable, column, "index.btl", ".html",remark);
+                    build(datetable, column, "edit.btl", ".html",remark);
+                    build(datetable, column, "add.btl", ".html",remark);
                     System.out.println("page generate finish !");
                     break;
                 default:
@@ -154,7 +156,13 @@ public class GenCodeController {
             case "controller.btl":
                 projectMenu = packPath  + "controller/";
                 break;
-            case "html.btl":
+            case "index.btl":
+                projectMenu = "resources/templates/";
+                break;
+            case "add.btl":
+                projectMenu = "resources/templates/";
+                break;
+            case "edit.btl":
                 projectMenu = "resources/templates/";
                 break;
             default:
@@ -169,9 +177,9 @@ public class GenCodeController {
             t.binding("actionName",actionName);
             t.binding("columns",columns);
             t.binding("remark", remark);
-            if("html.btl".equals(file)){
+            if("index.btl".equals(file)){
                 SwitchType st = new SwitchType();
-                String newPath = project + projectMenu + "index";
+                String newPath = project + projectMenu + st.lower(className);
                 if (!Files.exists(Paths.get(newPath))){
                     try {
                         Files.createDirectory(Paths.get(newPath));
@@ -179,8 +187,9 @@ public class GenCodeController {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(newPath +"/"+ st.lower(className) + type);
-                Files.write(Paths.get(newPath +"/"+ st.lower(className) + type), t.render().getBytes());
+                String prefix = file.substring(0,file.indexOf("."));
+                System.out.println(newPath + prefix + type);
+                Files.write(Paths.get(newPath +"/"+ prefix + type), t.render().getBytes());
             }else {
                 Files.write(Paths.get(project + projectMenu + className + type), t.render().getBytes());
             }
