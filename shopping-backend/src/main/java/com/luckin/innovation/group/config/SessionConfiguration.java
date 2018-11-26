@@ -13,7 +13,7 @@ import javax.servlet.MultipartConfigElement;
  * 版权所有 违法必究
  */
 
-public class SessionConfiguration extends WebMvcConfigurerAdapter {
+public class SessionConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
