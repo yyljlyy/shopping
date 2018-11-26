@@ -15,4 +15,6 @@ import java.util.List;
 @Repository
 public interface SystemPermissionDao extends JpaRepository<SystemPermission, Long> {
     List<SystemPermission> findAllByParentid(Long pid);
+
+    SystemPermission findByUrl(String s);
 }

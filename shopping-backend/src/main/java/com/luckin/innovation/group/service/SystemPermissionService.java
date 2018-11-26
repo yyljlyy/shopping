@@ -30,4 +30,5 @@ public interface SystemPermissionService {
 
     List<SystemPermission> findAll();
 
+    boolean findByUrl(String s);
 }

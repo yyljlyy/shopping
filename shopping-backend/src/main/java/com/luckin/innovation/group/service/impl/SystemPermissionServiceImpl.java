@@ -81,4 +81,10 @@ public class SystemPermissionServiceImpl implements SystemPermissionService {
     public List<SystemPermission> findAll() {
         return permissionDao.findAll();
     }
+
+    @Override
+    public boolean findByUrl(String s) {
+        SystemPermission byUrl = permissionDao.findByUrl(s);
+        return byUrl == null;
+    }
 }

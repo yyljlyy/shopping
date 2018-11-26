@@ -110,16 +110,18 @@ public class GenCodeController {
             }
         }
         String actionName =  DatabaseGenerateService.tableToActionName(datetable,"");
-        SystemPermission permission = new SystemPermission();
-        permission.setName(remark);
-        permission.setUrl("/"+actionName+"/index");
-        permission.setCreatetime(new Date());
-        permission.setDisplay(1);
-        permission.setFlag("1");
-        permission.setCreator(1);
-        permission.setMenutype("0");
-        permission.setParentid(1L);
-        persistenceService.save(permission);
+        if (persistenceService.findByUrl("/"+actionName+"/index")){
+            SystemPermission permission = new SystemPermission();
+            permission.setName(remark);
+            permission.setUrl("/"+actionName+"/index");
+            permission.setCreatetime(new Date());
+            permission.setDisplay(1);
+            permission.setFlag("1");
+            permission.setCreator(1);
+            permission.setMenutype("0");
+            permission.setParentid(1L);
+            persistenceService.save(permission);
+        }
     }
 
 
