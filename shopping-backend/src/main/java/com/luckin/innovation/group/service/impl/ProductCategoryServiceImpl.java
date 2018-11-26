@@ -3,17 +3,17 @@ package com.luckin.innovation.group.service.impl;
 import com.luckin.innovation.group.dao.ProductCategoryRepository;
 import com.luckin.innovation.group.entity.ProductCategory;
 import com.luckin.innovation.group.service.ProductCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class ProductCategoryServiceImpl implements ProductCategoryService {
-    @Autowired
+    @Resource
     private ProductCategoryRepository productcategoryRepository;
 
     @Override
@@ -22,9 +22,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public Integer saveProductCategory(ProductCategory data) {
+    public Integer saveProductCategory(ProductCategory productcategory) {
         try {
-            ProductCategory save = productcategoryRepository.save(data);
+            ProductCategory save = productcategoryRepository.save(productcategory);
         }catch (Exception e){
             System.out.println(e);
             return 1;
@@ -45,6 +45,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public ProductCategory updateProductCategory(ProductCategory productcategory){
+         //todo
          return productcategoryRepository.save(productcategory);
     }
 

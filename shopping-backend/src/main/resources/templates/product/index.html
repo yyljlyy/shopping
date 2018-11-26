@@ -92,6 +92,7 @@
 				 			<p field="secondCategoryid" title="二级分类" width="180"/>
 				 			<p field="commentContent" title="评价内容" width="180"/>
 				 			<p field="createTime" title="创建时间" width="180"/>
+				 			<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="300"/>
 					</div>
 			<script type="text/html" id="barDemo">
 				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="/product/edit" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="查看" inputs="id:">查看</a>
@@ -107,7 +108,25 @@
 </div>
 
 <script type="text/javascript">
+    layui.fsButton.test2 = function(elem,data,datagrid){
+        alert("测试自定义按钮2"+JSON.stringify(data));
+    };
+    layui.use(['form','layer'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form;
 
+        var helpTip="用户初始密码：<span style='color:red;'>123456</span>";
+        $("#help").on('mouseenter', function () {
+            this.index = layer.tips(helpTip, this, {
+                tips: [2, '#3A3D49'],
+                time: -1
+            });
+        }).on('mouseleave', function () {
+            layer.close(this.index);
+        });
+
+    });
 </script>
 </body>
 </html>

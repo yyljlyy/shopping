@@ -55,9 +55,11 @@ public class ${className}Controller {
 
     @RequestMapping("page")
     @ResponseBody
-    public Page<${className}> getList(Integer pageNum, Integer pageSize){
+    public ResultMsg getList(Integer pageNum, Integer pageSize){
         PageRequest pageRequest = PageRequest.of(pageNum -1 , pageSize);
-        return ${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest);
+        ResultMsg result=new ResultMsg();
+        result.setData(${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest));
+        return result;
     }
 
     @RequestMapping("add")
@@ -72,5 +74,14 @@ public class ${className}Controller {
     public ResultMsg del${className}(Long id){
         Integer code = ${st.lower(st.ct(tableName))}Service.delete${className}(id);
         return ResultMsg.ok();
+    }
+
+    @RequestMapping("findById")
+    @ResponseBody
+    public ResultMsg findById(Long id){
+        ${className} byId = ${st.lower(st.ct(tableName))}Service.findById(id);
+        ResultMsg msg = new ResultMsg();
+        msg.setData(byId);
+        return msg;
     }
 }

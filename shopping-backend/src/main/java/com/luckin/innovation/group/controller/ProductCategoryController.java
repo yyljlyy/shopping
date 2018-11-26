@@ -4,15 +4,15 @@ import com.luckin.innovation.group.entity.ProductCategory;
 import com.luckin.innovation.group.entity.ResultMsg;
 import com.luckin.innovation.group.service.ProductCategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/productcategory")
@@ -36,8 +36,8 @@ public class ProductCategoryController {
       * @return
       */
      @RequiresPermissions("auth:user:edit")
-     @RequestMapping(value = "edit", method = {RequestMethod.GET})
-     public String edit() {
+        @RequestMapping(value = "edit", method = {RequestMethod.GET})
+        public String edit() {
             return "productcategory/edit";
      }
 
@@ -51,24 +51,53 @@ public class ProductCategoryController {
             return "productcategory/add";
      }
 
-    @RequestMapping("productcategory/page")
+    @RequestMapping("page")
     @ResponseBody
-    public Page<ProductCategory> getList(String order, Integer offset, Integer limit){
-        PageRequest pageRequest = PageRequest.of(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
-        return productcategoryService.getProductCategoryList(pageRequest);
+    public ResultMsg getList(Integer pageNum, Integer pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNum -1 , pageSize);
+        ResultMsg result=new ResultMsg();
+        result.setData(productcategoryService.getProductCategoryList(pageRequest));
+        return result;
     }
 
-    @RequestMapping("productcategory/add")
+    @RequestMapping("add")
     @ResponseBody
-    public ResultMsg addProductCategory(ProductCategory data){
-        Integer code = productcategoryService.saveProductCategory(data);
+    public ResultMsg addProductCategory(ProductCategory productcategory){
+        Integer code = productcategoryService.saveProductCategory(productcategory);
         return ResultMsg.ok();
     }
 
-    @RequestMapping("productcategory/del")
+    @RequestMapping("del")
     @ResponseBody
     public ResultMsg delProductCategory(Long id){
         Integer code = productcategoryService.deleteProductCategory(id);
         return ResultMsg.ok();
+    }
+
+    @RequestMapping("findById")
+    @ResponseBody
+    public ResultMsg findById(Long id){
+        ProductCategory byId = productcategoryService.findById(id);
+        ResultMsg msg = new ResultMsg();
+        msg.setData(byId);
+        return msg;
+    }
+
+    /**
+     * 查询全部数据操作
+     * @return ResultMsg
+     */
+    @RequestMapping(value="all",method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg all(){
+        List<ProductCategory> coreMenus = productcategoryService.findAll();
+        ProductCategory coreMenu=new ProductCategory();
+        coreMenu.setId(0L);
+        coreMenu.setCategoryName("/根目录");
+        //向菜单list第一个位置插入根目录
+        coreMenus.add(0,coreMenu);
+        ResultMsg result=new ResultMsg();
+        result.setData(coreMenus);
+        return  result;
     }
 }

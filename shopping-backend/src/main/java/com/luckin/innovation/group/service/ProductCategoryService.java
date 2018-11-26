@@ -9,11 +9,11 @@ import java.util.List;
 public interface ProductCategoryService {
     Page<ProductCategory> getProductCategoryList(PageRequest pageRequest);
 
-    Integer saveProductCategory(ProductCategory data);
+    Integer saveProductCategory(ProductCategory productcategory);
 
     Integer deleteProductCategory(Long id);
 
-    ProductCategory updateProductCategory(ProductCategory permission);
+    ProductCategory updateProductCategory(ProductCategory productcategory);
 
     ProductCategory findById(Long id);
 
