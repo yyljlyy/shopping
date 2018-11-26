@@ -22,9 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Jasper Lee (Jian) 创建于 2018-11-23 上午12:16
@@ -34,6 +32,7 @@ import java.util.List;
  */
 @Controller
 public class GenCodeController {
+    private static final Set<String> FILES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("index.btl", "add.btl", "edit.btl")));
     @Resource
     private SystemPermissionService persistenceService;
     @Resource
@@ -179,7 +178,7 @@ public class GenCodeController {
             t.binding("actionName",actionName);
             t.binding("columns",columns);
             t.binding("remark", remark);
-            if("index.btl".equals(file)){
+            if(FILES.contains(file)){
                 SwitchType st = new SwitchType();
                 String newPath = project + projectMenu + st.lower(className);
                 if (!Files.exists(Paths.get(newPath))){
