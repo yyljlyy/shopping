@@ -6,13 +6,14 @@ import com.luckin.innovation.group.service.ProductService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Controller
 @RequestMapping("/product")
@@ -51,21 +52,21 @@ public class ProductController {
             return "product/add";
      }
 
-    @RequestMapping("product/page")
+    @RequestMapping("page")
     @ResponseBody
-    public Page<Product> getList(String order, Integer offset, Integer limit){
-        PageRequest pageRequest = new PageRequest(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
+    public Page<Product> getList(Integer pageNum, Integer pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNum -1 , pageSize);
         return productService.getProductList(pageRequest);
     }
 
-    @RequestMapping("product/add")
+    @RequestMapping("add")
     @ResponseBody
     public ResultMsg addProduct(Product product){
         Integer code = productService.saveProduct(product);
         return ResultMsg.ok();
     }
 
-    @RequestMapping("product/del")
+    @RequestMapping("del")
     @ResponseBody
     public ResultMsg delProduct(Long id){
         Integer code = productService.deleteProduct(id);

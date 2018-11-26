@@ -302,7 +302,7 @@ layui.fsUtil.digit = function(num, length, end){
 					} else if ( elt.length > 1 ) {
 						if(elt.attr("type") == "checkbox"){
 							if(v){
-								elt.val(v.split(','));
+								elt.val(v);
 							}
 						}else{
 							elt.val([v]);

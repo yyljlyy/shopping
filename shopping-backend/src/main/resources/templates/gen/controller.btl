@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 @Controller
 @RequestMapping("/${st.lower(st.ct(tableName))}")
 public class ${className}Controller {
@@ -51,21 +53,21 @@ public class ${className}Controller {
             return "${st.lower(st.ct(tableName))}/add";
      }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/page")
+    @RequestMapping("page")
     @ResponseBody
-    public Page<${className}> getList(String order, Integer offset, Integer limit){
-        PageRequest pageRequest = new PageRequest(offset, limit, new Sort(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "Id"));
+    public Page<${className}> getList(Integer pageNum, Integer pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNum -1 , pageSize);
         return ${st.lower(st.ct(tableName))}Service.get${className}List(pageRequest);
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/add")
+    @RequestMapping("add")
     @ResponseBody
     public ResultMsg add${className}(${className} ${st.lower(st.ct(tableName))}){
         Integer code = ${st.lower(st.ct(tableName))}Service.save${className}(${st.lower(st.ct(tableName))});
         return ResultMsg.ok();
     }
 
-    @RequestMapping("${st.lower(st.ct(tableName))}/del")
+    @RequestMapping("del")
     @ResponseBody
     public ResultMsg del${className}(Long id){
         Integer code = ${st.lower(st.ct(tableName))}Service.delete${className}(id);
