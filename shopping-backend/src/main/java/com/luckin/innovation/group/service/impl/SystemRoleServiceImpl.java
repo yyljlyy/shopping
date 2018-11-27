@@ -2,6 +2,7 @@ package com.luckin.innovation.group.service.impl;
 
 import com.luckin.innovation.group.dao.SystemRoleRepository;
 import com.luckin.innovation.group.entity.SystemRole;
+import com.luckin.innovation.group.entity.SystemUser;
 import com.luckin.innovation.group.service.SystemRoleService;
 import org.springframework.stereotype.Service;
 
@@ -53,3 +54,5 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         roleRepository.deleteById(id);
     }
 }
+
+

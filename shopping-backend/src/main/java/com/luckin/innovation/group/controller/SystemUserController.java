@@ -126,16 +126,14 @@ public class SystemUserController {
     @ResponseBody
     public ResultMsg deleteBatch(String id) {
         String[] ids = id.split(",");
-        for (String s : ids) {
-            SystemUser findUser = userService.findOneById(Long.valueOf(s));
-            //根据多个用户id删除用户角色关系表信息
-            List<SystemRole> roles = findUser.getRoles();
-            for (SystemRole role : roles) {
-                roleService.deleteById(role.getId());
-            }
-            //根据多个用户id删除用户表信息
-            userService.deleteByIds(ids);
-        }
+        userService.deleteByIds(ids);
+        return ok();
+    }
+
+    @RequestMapping(value = "delete", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg delete(String id) {
+        userService.deleteById(Long.valueOf(id));
         return ok();
     }
 
@@ -227,8 +225,9 @@ public class SystemUserController {
         if (oldPwd == null || oldPwd.length() <= 0 || newPwd == null || newPwd.length() <= 0 || confirm == null || confirm.length() <= 0) {
             return fail("三个密码都不能为空");
         }
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        SystemUser user = userService.findByUsername(username);
+
+        SystemUser user = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+
         if (!user.getPassWord().equals(Md5Util.md5(oldPwd))) {
             return fail("密码输入错误");
         }

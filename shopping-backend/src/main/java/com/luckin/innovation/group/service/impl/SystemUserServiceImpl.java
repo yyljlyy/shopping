@@ -68,9 +68,8 @@ public class SystemUserServiceImpl {
     }
 
     public SystemUser updateTemplateById(SystemUser user) {
-        SystemUser updateUser = userRepository.findById(user.getId()).get();
         user.setUpdateTime(new Date());
-        return userRepository.save(updateUser);
+        return userRepository.save(user);
     }
 
     public Page<SystemUser> findPageBy(PageRequest pageRequest) {

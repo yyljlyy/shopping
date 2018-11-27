@@ -1,6 +1,7 @@
 package com.luckin.innovation.group.service;
 
 import com.luckin.innovation.group.entity.SystemRole;
+import com.luckin.innovation.group.entity.SystemUser;
 
 import java.util.List;
 
@@ -24,4 +25,5 @@ public interface SystemRoleService {
     SystemRole findById(Long id);
 
     void deleteById(Long id);
+
 }
